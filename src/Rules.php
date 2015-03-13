@@ -42,7 +42,7 @@ class Rules
 		return $this;
 	}
 
-	public function match( $ua, $url ) {
+	public function match($ua, $url) {
 		if( ($rule = $this->get($ua)) === null ) {
 			return false;
 		}
