@@ -20,15 +20,18 @@ use Bee4\RobotsTxt\Rule;
 class RuleTest extends \PHPUnit_Framework_TestCase
 {
 	public function testPatternSetAndMatch() {
-		$object = new Rule('Bot1');
-		$object->addPattern('/toto*.php$');
-		$object->addPattern('/truite');
-		$object->addPattern('/section*');
+		$object = new Rule();
+		$object->disallow('/section*');
+		$this->assertFalse($object->match('/section/tout/cetuqiadjoa.jpg'));
 
-		$this->assertTrue($object->match('/toto/tata.php'));
+		$object->allow('/toto*.php$');
 		$this->assertTrue($object->match('/toto/tata.PHP'));
+		$this->assertTrue($object->match('/toto/tata.php'));
+
+		$object->allow('/truite');
 		$this->assertTrue($object->match('/truite/et/tout/cetuqiadjoa.jpg'));
-		$this->assertTrue($object->match('/section/tout/cetuqiadjoa.jpg'));
+
+		$object->disallow('/');
 		$this->assertFalse($object->match('/to/tata.php'));
 	}
 }
