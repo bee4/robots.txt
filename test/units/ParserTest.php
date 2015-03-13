@@ -12,6 +12,7 @@
 namespace Test\Bee4\RobotsTxt;
 
 use Bee4\RobotsTxt\Parser;
+use Bee4\RobotsTxt\ParserFactory;
 
 /**
  * Parser unit test
@@ -38,5 +39,11 @@ disallow: /";
 
 		$this->assertFalse($rules->match('Google-Bot v01', '/toto'));
 		$this->assertTrue($rules->match('Google-Bot v01', '/truite.php'));
+	}
+
+	public function testParserFactory() {
+		$rules = ParserFactory::build("http://www.bee4.fr");
+
+		$this->assertInstanceOf('\Bee4\RobotsTxt\Rule', $rules->get('*'));
 	}
 }

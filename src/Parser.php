@@ -30,7 +30,6 @@ class Parser
 
 	public function parse() {
 		$rules = new Rules();
-
 		$ua = $rule = null;
 		$separator = "\r\n";
 		$line = strtok($this->content, $separator);
