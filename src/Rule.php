@@ -19,28 +19,40 @@ namespace Bee4\RobotsTxt;
 class Rule
 {
 	/**
-	 * The UserAgent corresponding to the rule
-	 * @var string
+	 * The regex patterns that identidy if the rule match or not!
+	 * @var array
 	 */
-	protected $ua;
+	protected $patterns = [
+		'allow' => [],
+		'disallow' => []
+	];
 
 	/**
-	 * The regex pattern that identidy if the rule match or not!
-	 * @var string
-	 */
-	protected $pattern;
-
-	public function __construct($ua) {
-		$this->ua = $ua;
-		$this->pattern = '';
-	}
-
-	/**
-	 * Add a pattern to match in the current rule
+	 * Add a pattern to match in the current rule by allowing
 	 * @param string $pattern
 	 * @return Rule
 	 */
-	public function addPattern($pattern) {
+	public function allow($pattern) {
+		$this->patterns['allow'][$pattern] = $this->handlePattern($pattern);
+		return $this;
+	}
+
+	/**
+	 * Add a pattern to match in the current rule by disallowing
+	 * @param string $pattern
+	 * @return Rule
+	 */
+	public function disallow($pattern) {
+		$this->patterns['disallow'][$pattern] = $this->handlePattern($pattern);
+		return $this;
+	}
+
+	/**
+	 * Transform current pattern to be used for matching
+	 * @param string $pattern
+	 * @return string;
+	 */
+	private function handlePattern($pattern) {
 		$ended = substr($pattern, -1) === '$';
 		$pattern = rtrim($pattern, '*');
 		$pattern = rtrim($pattern, '$');
@@ -49,13 +61,7 @@ class Rule
 		array_walk($parts, function(&$part) {
 			$part = preg_quote($part, '/');
 		});
-
-		if( $this->pattern != '' ) {
-			$this->pattern .= '|';
-		}
-		$this->pattern .= implode('.*', $parts).($ended?'':'.*');
-
-		return $this;
+		return implode('.*', $parts).($ended?'':'.*');
 	}
 
 	/**
@@ -64,6 +70,16 @@ class Rule
 	 * @return boolean
 	 */
 	public function match($url) {
-		return preg_match('/^'.$this->pattern.'$/i', $url) != false;
+		arsort($this->patterns['allow'], SORT_NUMERIC);
+		arsort($this->patterns['disallow'], SORT_NUMERIC);
+
+		if( count($this->patterns['disallow']) > 0 && preg_match('/^(?!('.implode('|', $this->patterns['disallow']).')).*$/i', $url ) == false ) {
+			if( count($this->patterns['allow']) > 0 ) {
+				return preg_match('/^('.implode('|', $this->patterns['allow']).')$/i', $url) != false;
+			} else {
+				return false;
+			}
+		}
+		return true;
 	}
 }
