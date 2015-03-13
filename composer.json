@@ -1,0 +1,23 @@
+{
+  "name": "bee4/robots.txt",
+  "description": "A library to work with UserAgent detection and classification",
+  "require-dev": {
+    "phpunit/phpunit": "4.*"
+  },
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "Stephane HULARD",
+      "email": "s.hulard@chstudio.fr"
+    }
+  ],
+  "require": {
+    "php": ">=5.4",
+    "ext-pcre": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Bee4\\RobotsTxt\\": "src"
+    }
+  }
+}
