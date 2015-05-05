@@ -1,4 +1,4 @@
-bee4/robots.txt v0.0.0
+bee4/robots.txt v0.0.1
 ======================
 
 [![Build Status](https://travis-ci.org/bee4/robots.txt.svg?branch=develop)](https://travis-ci.org/bee4/robots.txt)

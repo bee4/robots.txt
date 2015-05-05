@@ -12,6 +12,7 @@
 namespace Test\Bee4\RobotsTxt;
 
 use Bee4\RobotsTxt\Parser;
+use Bee4\RobotsTxt\Rules;
 use Bee4\RobotsTxt\ParserFactory;
 
 /**
@@ -26,6 +27,13 @@ Disallow: /mentions-legales/
 User-agent: google-bot
 Allow: /truite.php
 disallow: /";
+
+	protected $duplicateRuleContent = "User-agent: *
+Disallow: /mentions-legales/
+
+User-agent: *
+Allow: /truite.php";
+
 
 	public function testParse() {
 		$object = new Parser($this->content);
@@ -45,14 +53,22 @@ disallow: /";
 		$object = new Parser("");
 		$rules = $object->parse();
 
-		$rule = $rules->get('*');
+		$rule = $rules->get(Rules::DEFAULT_UA);
 		$this->assertInstanceOf('\Bee4\RobotsTxt\Rule', $rule);
 		$this->assertTrue($rule->match('/another-page.html'));
 	}
 
+
+	/**
+	 * @expectedException Bee4\RobotsTxt\Exception\DuplicateRuleException
+	 */
+	public function testDuplicateRuleParse() {
+		$object = new Parser($this->duplicateRuleContent);
+		$rules = $object->parse();
+	}
+
 	public function testParserFactory() {
 		$rules = ParserFactory::build("http://www.bee4.fr");
-
 		$this->assertInstanceOf('\Bee4\RobotsTxt\Rule', $rules->get('*'));
 	}
 }
