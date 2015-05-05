@@ -25,6 +25,7 @@ class Parser
 	protected $content;
 
 	public function __construct($content) {
+		//Remove the UTF8 BOM
 		$this->content = trim($content, "\xEF\xBB\xBF");
 	}
 
