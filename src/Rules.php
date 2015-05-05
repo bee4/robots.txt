@@ -11,6 +11,8 @@
 
 namespace Bee4\RobotsTxt;
 
+use Bee4\RobotsTxt\Exception\DuplicateRuleException;
+
 /**
  * Class Rules
  * Represent a collection of Rules
@@ -42,7 +44,9 @@ class Rules
 	public function add($ua, Rule $rule) {
 		$ua = $this->handleUa($ua);
 		if( isset($this->collection[$ua]) && $this->collection[$ua] !== $this->defaultRule ) {
-			throw new \RuntimeException('You can\'t add 2 rules for the same UserAgent');
+			throw (new DuplicateRuleException('You can\'t add 2 rules for the same UserAgent'))
+				->setRule($rule)
+				->setUserAgent($ua);
 		}
 		$this->collection[$ua] = $rule;
 
