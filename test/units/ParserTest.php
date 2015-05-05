@@ -41,6 +41,15 @@ disallow: /";
 		$this->assertTrue($rules->match('Google-Bot v01', '/truite.php'));
 	}
 
+	public function testEmptyContentParse() {
+		$object = new Parser("");
+		$rules = $object->parse();
+
+		$rule = $rules->get('*');
+		$this->assertInstanceOf('\Bee4\RobotsTxt\Rule', $rule);
+		$this->assertTrue($rule->match('/another-page.html'));
+	}
+
 	public function testParserFactory() {
 		$rules = ParserFactory::build("http://www.bee4.fr");
 
