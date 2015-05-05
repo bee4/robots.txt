@@ -26,6 +26,13 @@ class Rules
 	 */
 	protected $collection = [];
 
+	private $defaultRule;
+
+	public function __construct() {
+		$this->defaultRule = new Rule();
+		$this->add(self::DEFAULT_UA, $this->defaultRule);
+	}
+
 	/**
 	 * Add a new rule to the collection
 	 * @param string $ua
@@ -34,7 +41,7 @@ class Rules
 	 */
 	public function add($ua, Rule $rule) {
 		$ua = $this->handleUa($ua);
-		if( isset($this->collection[$ua]) ) {
+		if( isset($this->collection[$ua]) && $this->collection[$ua] !== $this->defaultRule ) {
 			throw new \RuntimeException('You can\'t add 2 rules for the same UserAgent');
 		}
 		$this->collection[$ua] = $rule;
@@ -42,6 +49,12 @@ class Rules
 		return $this;
 	}
 
+	/**
+	 * Check if the URL match for the given UA or not
+	 * @param string $ua
+	 * @param string $url
+	 * @return boolean
+	 */
 	public function match($ua, $url) {
 		if( ($rule = $this->get($ua)) === null ) {
 			return false;
