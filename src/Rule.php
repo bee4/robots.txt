@@ -73,9 +73,9 @@ class Rule
 		arsort($this->patterns['allow'], SORT_NUMERIC);
 		arsort($this->patterns['disallow'], SORT_NUMERIC);
 
-		if( count($this->patterns['disallow']) > 0 && preg_match('/^(?!('.implode('|', $this->patterns['disallow']).')).*$/i', $url ) == false ) {
+		if( count($this->patterns['disallow']) > 0 && preg_match('/^(?!('.implode('|', $this->patterns['disallow']).')).*$/i', $url ) !== 1 ) {
 			if( count($this->patterns['allow']) > 0 ) {
-				return preg_match('/^('.implode('|', $this->patterns['allow']).')$/i', $url) != false;
+				return preg_match('/^('.implode('|', $this->patterns['allow']).')$/i', $url) === 1;
 			} else {
 				return false;
 			}
