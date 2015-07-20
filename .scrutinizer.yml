@@ -1,6 +1,7 @@
 ## Scrutinizer quality insurance configuration
 before_commands:
   - 'composer install --prefer-source --no-interaction --no-dev'
+  - 'composer install:phpunit'
 
 tools:
   external_code_coverage: true
@@ -29,4 +30,4 @@ filter:
 build:
   tests:
     before:
-      - "phpunit"
+      - "bin/phpunit"
