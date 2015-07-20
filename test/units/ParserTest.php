@@ -64,7 +64,7 @@ Allow: /truite.php";
 	 */
 	public function testDuplicateRuleParse() {
 		$object = new Parser($this->duplicateRuleContent);
-		$rules = $object->parse();
+		$object->parse();
 	}
 
 	public function testParserFactory() {

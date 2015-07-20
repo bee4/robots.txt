@@ -50,7 +50,7 @@ class Rule
 	/**
 	 * Transform current pattern to be used for matching
 	 * @param string $pattern
-	 * @return string;
+	 * @return string
 	 */
 	private function handlePattern($pattern) {
 		$ended = substr($pattern, -1) === '$';
