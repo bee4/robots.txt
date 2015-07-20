@@ -43,9 +43,11 @@ class Rules
 	 */
 	public function add($userAgent, Rule $rule) {
 		$userAgent = $this->handleUa($userAgent);
-		if( isset($this->collection[$userAgent]) && $this->collection[$userAgent] !== $this->defaultRule ) {
-			throw (new DuplicateRuleException('You can\'t add 2 rules for the same UserAgent'))
-				->setRule($rule)
+		if( isset($this->collection[$userAgent]) &&
+				$this->collection[$userAgent] !== $this->defaultRule ) {
+			throw (new DuplicateRuleException(
+				'You can\'t add 2 rules for the same UserAgent'
+			))->setRule($rule)
 				->setUserAgent($userAgent);
 		}
 		$this->collection[$userAgent] = $rule;
@@ -76,7 +78,8 @@ class Rules
 		$iterator = new \ArrayIterator($this->collection);
 		iterator_apply($iterator,
 			function(\ArrayIterator $iterator, $userAgent) use (&$item) {
-				if( $iterator->key() != Rules::DEFAULT_UA && preg_match($iterator->key(), $userAgent) === 1 ) {
+				if( $iterator->key() != Rules::DEFAULT_UA &&
+						preg_match($iterator->key(), $userAgent) === 1 ) {
 					$item = $iterator->current();
 					return false;
 				}
@@ -85,7 +88,11 @@ class Rules
 			[$iterator, $userAgent]
 		);
 
-		return $item!==null?$item:(isset($this->collection[self::DEFAULT_UA])?$this->collection[self::DEFAULT_UA]:null);
+		return $item!==null?
+			$item:
+			(isset($this->collection[self::DEFAULT_UA])?
+				$this->collection[self::DEFAULT_UA]:
+				null);
 	}
 
 	/**

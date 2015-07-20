@@ -22,12 +22,20 @@ class ParserFactory
 		if( filter_var($item, FILTER_VALIDATE_URL)!==false ) {
 			$parsed = parse_url($item);
 			if( isset($parsed['path']) && $parsed['path'] != '/robots.txt' ) {
-				throw new \InvalidArgumentException('The robots.txt file can\'t be found at: '.$item.' this file must be hosted at website root');
+				throw new \InvalidArgumentException(
+					sprintf(
+						'The robots.txt file can\'t be found at: %s this file
+						must be hosted at website root', $item)
+				);
 			}
 
 			$parsed['path'] = '/robots.txt';
-			$parsed = array_intersect_key($parsed, array_flip(['scheme', 'host', 'port', 'path']));
-			$url = $parsed['scheme'].'://'.$parsed['host'].(isset($parsed['port'])?':'.$parsed['port']:'').$parsed['path'];
+			$parsed = array_intersect_key(
+				$parsed,
+				array_flip(['scheme', 'host', 'port', 'path'])
+			);
+			$port = isset($parsed['port'])?':'.$parsed['port']:'';
+			$url = $parsed['scheme'].'://'.$parsed['host'].$port.$parsed['path'];
 
 			$handle = curl_init();
 			curl_setopt($handle, CURLOPT_URL, $url);
