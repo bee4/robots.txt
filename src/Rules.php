@@ -37,30 +37,32 @@ class Rules
 
 	/**
 	 * Add a new rule to the collection
-	 * @param string $ua
+	 * @param string $userAgent
 	 * @param Rule $rule
 	 * @return Rules
 	 */
-	public function add($ua, Rule $rule) {
-		$ua = $this->handleUa($ua);
-		if( isset($this->collection[$ua]) && $this->collection[$ua] !== $this->defaultRule ) {
-			throw (new DuplicateRuleException('You can\'t add 2 rules for the same UserAgent'))
-				->setRule($rule)
-				->setUserAgent($ua);
+	public function add($userAgent, Rule $rule) {
+		$userAgent = $this->handleUa($userAgent);
+		if( isset($this->collection[$userAgent]) &&
+				$this->collection[$userAgent] !== $this->defaultRule ) {
+			throw (new DuplicateRuleException(
+				'You can\'t add 2 rules for the same UserAgent'
+			))->setRule($rule)
+				->setUserAgent($userAgent);
 		}
-		$this->collection[$ua] = $rule;
+		$this->collection[$userAgent] = $rule;
 
 		return $this;
 	}
 
 	/**
 	 * Check if the URL match for the given UA or not
-	 * @param string $ua
+	 * @param string $userAgent
 	 * @param string $url
 	 * @return boolean
 	 */
-	public function match($ua, $url) {
-		if( ($rule = $this->get($ua)) === null ) {
+	public function match($userAgent, $url) {
+		if( ($rule = $this->get($userAgent)) === null ) {
 			return false;
 		}
 		return $rule->match($url);
@@ -68,32 +70,40 @@ class Rules
 
 	/**
 	 * Retrieve rules for a given UA
-	 * @param string $ua
+	 * @param string $userAgent
 	 * @return null|Rule
 	 */
-	public function get($ua) {
+	public function get($userAgent) {
 		$item = null;
-		$it = new \ArrayIterator($this->collection);
-		iterator_apply($it, function($it, $ua) use (&$item) {
-			if( $it->key() != Rules::DEFAULT_UA && preg_match($it->key(), $ua) != false ) {
-				$item = $it->current();
-				return false;
-			}
-			return true;
-		}, [$it, $ua]);
+		$iterator = new \ArrayIterator($this->collection);
+		iterator_apply($iterator,
+			function(\ArrayIterator $iterator, $userAgent) use (&$item) {
+				if( $iterator->key() != Rules::DEFAULT_UA &&
+						preg_match($iterator->key(), $userAgent) === 1 ) {
+					$item = $iterator->current();
+					return false;
+				}
+				return true;
+			},
+			[$iterator, $userAgent]
+		);
 
-		return $item!==null?$item:(isset($this->collection[self::DEFAULT_UA])?$this->collection[self::DEFAULT_UA]:null);
+		return $item!==null?
+			$item:
+			(isset($this->collection[self::DEFAULT_UA])?
+				$this->collection[self::DEFAULT_UA]:
+				null);
 	}
 
 	/**
 	 * Update the UA to make a valid regexp
-	 * @param string $ua
+	 * @param string $userAgent
 	 * @return string
 	 */
-	private function handleUa($ua) {
-		if( $ua == self::DEFAULT_UA ) {
-			return $ua;
+	private function handleUa($userAgent) {
+		if( $userAgent == self::DEFAULT_UA ) {
+			return $userAgent;
 		}
-		return '/^'.preg_quote($ua).'.*/i';
+		return '/^'.preg_quote($userAgent).'.*/i';
 	}
 }

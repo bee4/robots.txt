@@ -40,7 +40,7 @@ Allow: /truite.php";
 		$rules = $object->parse();
 
 		$rule = $rules->get('*');
-		$this->assertInstanceOf('\Bee4\RobotsTxt\Rule', $rule);
+		$this->assertInstanceOf('Bee4\RobotsTxt\Rule', $rule);
 
 		$this->assertFalse($rule->match('/mentions-legales/'));
 		$this->assertTrue($rule->match('/another-page.html'));
@@ -54,7 +54,7 @@ Allow: /truite.php";
 		$rules = $object->parse();
 
 		$rule = $rules->get(Rules::DEFAULT_UA);
-		$this->assertInstanceOf('\Bee4\RobotsTxt\Rule', $rule);
+		$this->assertInstanceOf('Bee4\RobotsTxt\Rule', $rule);
 		$this->assertTrue($rule->match('/another-page.html'));
 	}
 
@@ -64,11 +64,14 @@ Allow: /truite.php";
 	 */
 	public function testDuplicateRuleParse() {
 		$object = new Parser($this->duplicateRuleContent);
-		$rules = $object->parse();
+		$object->parse();
 	}
 
 	public function testParserFactory() {
-		$rules = ParserFactory::build("http://www.bee4.fr");
-		$this->assertInstanceOf('\Bee4\RobotsTxt\Rule', $rules->get('*'));
+		$parser = ParserFactory::build("http://www.bee4.fr");
+		$this->assertInstanceOf('Bee4\RobotsTxt\Parser', $parser);
+
+		$rules = $parser->parse();
+		$this->assertInstanceOf('Bee4\RobotsTxt\Rule', $rules->get('*'));
 	}
 }

@@ -24,23 +24,38 @@ class Parser
 	 */
 	protected $content;
 
+	/**
+	 * @param string $content
+	 */
 	public function __construct($content) {
 		//Remove the UTF8 BOM
 		$this->content = trim($content, "\xEF\xBB\xBF");
 	}
 
+	/**
+	 * Content accessor
+	 * @return string
+	 */
+	public function getContent() {
+		return $this->content;
+	}
+
+	/**
+	 * Transform file content to structured Rules
+	 * @return Rules The valid ruleset
+	 */
 	public function parse() {
 		$rules = new Rules();
-		$ua = $rule = null;
+		$userAgent = $rule = null;
 		$separator = "\r\n";
 		$line = strtok($this->content, $separator);
 		while ($line !== false) {
 			if( strpos($line, '#') !== 0 ) {
 				if( preg_match('/^User-Agent\: (.*)$/i', $line, $matches)) {
-					if( $ua !== null ) {
-						$rules->add($ua, $rule);
+					if( $userAgent !== null && $rule !== null ) {
+						$rules->add($userAgent, $rule);
 					}
-					$ua = $matches[1];
+					$userAgent = $matches[1];
 					$rule = new Rule();
 				} elseif( preg_match('/^Allow: (.*)$/i', $line, $matches)) {
 					$rule->allow($matches[1]);
@@ -53,7 +68,7 @@ class Parser
 		}
 		//Handle the last item in the loop
 		if( $rule instanceof Rule ) {
-			$rules->add($ua, $rule);
+			$rules->add($userAgent, $rule);
 		}
 
 		return $rules;

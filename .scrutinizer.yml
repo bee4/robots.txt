@@ -1,7 +1,4 @@
 ## Scrutinizer quality insurance configuration
-before_commands:
-  - 'composer install --prefer-source --no-interaction --no-dev'
-
 tools:
   external_code_coverage: true
   php_mess_detector:
@@ -25,8 +22,3 @@ filter:
   excluded_paths:
     - vendor/*
     - test/public/*
-
-build:
-  tests:
-    before:
-      - "phpunit"
