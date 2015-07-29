@@ -1,4 +1,4 @@
-bee4/robots.txt v0.0.1
+bee4/robots.txt v1.0.0
 ======================
 
 [![Build Status](https://img.shields.io/travis/bee4/robots.txt.svg?style=flat-square)](https://travis-ci.org/bee4/robots.txt)
@@ -21,7 +21,7 @@ This project can be installed using Composer. Add the following to your composer
 ```JSON
 {
     "require": {
-        "bee4/robots.txt": "~0.0"
+        "bee4/robots.txt": "~1.0"
     }
 }
 ```
@@ -29,5 +29,5 @@ This project can be installed using Composer. Add the following to your composer
 or run this command:
 
 ```Shell
-composer require bee4/robots.txt:~0.0
+composer require bee4/robots.txt:~1.0
 ```
