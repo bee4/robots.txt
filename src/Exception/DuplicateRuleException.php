@@ -16,45 +16,50 @@ use Bee4\RobotsTxt\Rule;
  */
 class DuplicateRuleException extends Exception
 {
-	/**
-	 * @var Rule
-	 */
-	protected $rule;
+    /**
+     * @var Rule
+     */
+    protected $rule;
 
-	/**
-	 * @var string
-	 */
-	protected $ua;
+    /**
+     * @var string
+     */
+    protected $ua;
 
-	/**
-	 * Rule setter
-	 * @param Rule $rule
-	 * @return DuplicateRuleException
-	 */
-	public function setRule(Rule $rule) {
-		$this->rule = $rule;
-		return $this;
-	}
-	/**
-	 * @return Rule
-	 */
-	public function getRule() {
-		return $this->rule;
-	}
+    /**
+     * Rule setter
+     * @param Rule $rule
+     * @return DuplicateRuleException
+     */
+    public function setRule(Rule $rule)
+    {
+        $this->rule = $rule;
+        return $this;
+    }
 
-	/**
-	 * User Agent setter
-	 * @param string $ua
-	 * @return DuplicateRuleException
-	 */
-	public function setUserAgent($ua) {
-		$this->ua = $ua;
-		return $this;
-	}
-	/**
-	 * @return string
-	 */
-	public function getUserAgent() {
-		return $this->ua;
-	}
+    /**
+     * @return Rule
+     */
+    public function getRule()
+    {
+        return $this->rule;
+    }
+
+    /**
+     * User Agent setter
+     * @param string $ua
+     * @return DuplicateRuleException
+     */
+    public function setUserAgent($ua)
+    {
+        $this->ua = $ua;
+        return $this;
+    }
+    /**
+     * @return string
+     */
+    public function getUserAgent()
+    {
+        return $this->ua;
+    }
 }
