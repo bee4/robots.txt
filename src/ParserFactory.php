@@ -49,7 +49,6 @@ class ParserFactory
 			}
 		}
 
-		$parser = new Parser($item);
-		return $parser->parse();
+		return new Parser($item);
 	}
 }
