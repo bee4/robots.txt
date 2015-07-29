@@ -37,25 +37,33 @@ Example
 
 ```PHP
 <?php
-$sample_robots_txt = trim("
 
+use Bee4\RobotsTxt\ParserFactory;
+
+// Build a parser from a URL
+$parser = new ParserFactory("https://httpbin.org/robots.txt");
+
+// or directly from robots.txt content
+$parser = new ParserFactory::build("
 User-agent: *
 Allow: /
 
 User-agent: google-bot
 Disallow: /forbidden-directory
-
 ");
 
-$parser = new \Bee4\RobotsTxt\Parser($sample_robots_txt);
+// Then you must parse the file
 $rules = $parser->parse();
 
-// You can use match a url against parsed rules...
-$rules->match('Google-Bot v01', '/'); // true
+// Or you can retrieve the content
+$content = $parser->getContent();
+
+// You can use match to check if an url is allowed for a give user-agent...
+$rules->match('Google-Bot v01', '/an-awesome-url');      // true
 $rules->match('Google-Bot v01', '/forbidden-directory'); // false
 
 // ...or get the applicable rule for a user-agent and match  
 $rule = $rules->get('*');
-$result = $rule->match('/'); // true                                                                                                                       
+$result = $rule->match('/'); // true
 $result = $rule->match('/forbidden-directory'); // true
 ```
