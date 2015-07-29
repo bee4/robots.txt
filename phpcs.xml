@@ -4,8 +4,6 @@
 
  <exclude-pattern>*/vendor/*</exclude-pattern>
 
- <arg name="tab-width" value="4"/>
-
  <rule ref="PSR1"/>
  <rule ref="PSR2"/>
 
