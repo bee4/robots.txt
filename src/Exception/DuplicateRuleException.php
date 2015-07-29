@@ -1,13 +1,4 @@
 <?php
-/**
- * This file is part of the beebot package.
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @copyright Bee4 2015
- * @author	Stephane HULARD <s.hulard@chstudio.fr>
- * @package Bee4\RobotsTxt\Exception
- */
 
 namespace Bee4\RobotsTxt\Exception;
 
@@ -17,7 +8,11 @@ use Bee4\RobotsTxt\Rule;
 /**
  * Class DuplicateRuleException
  * Error thrown when the parser try to add 2 rules for the same UA
- * @package Bee4\RobotsTxt\Exception
+ *
+ * @package   Bee4\RobotsTxt\Exception
+ * @license   http://opensource.org/licenses/Apache-2.0
+ * @copyright Bee4 2015
+ * @author    Stephane HULARD <s.hulard@chstudio.fr>
  */
 class DuplicateRuleException extends Exception
 {

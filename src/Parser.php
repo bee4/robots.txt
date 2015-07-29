@@ -1,20 +1,15 @@
 <?php
-/**
- * This file is part of the beebot package.
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @copyright Bee4 2015
- * @author	Stephane HULARD <s.hulard@chstudio.fr>
- * @package Bee4\RobotsTxt
- */
 
 namespace Bee4\RobotsTxt;
 
 /**
  * Class Parser
  * Take the content of a robots.txt file and transform it to rules
+ *
  * @package Bee4\RobotsTxt
+ * @license   http://opensource.org/licenses/Apache-2.0
+ * @copyright Bee4 2015
+ * @author	  Stephane HULARD <s.hulard@chstudio.fr>
  */
 class Parser
 {
