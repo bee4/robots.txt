@@ -4,6 +4,11 @@
 
  <exclude-pattern>*/vendor/*</exclude-pattern>
 
+ <arg name="tab-width" value="4"/>
+
+ <rule ref="PSR1"/>
+ <rule ref="PSR2"/>
+
  <rule ref="Generic.CodeAnalysis.EmptyStatement" />
  <rule ref="Generic.CodeAnalysis.UnconditionalIfStatement" />
  <rule ref="Generic.CodeAnalysis.UnnecessaryFinalModifier" />
@@ -29,5 +34,5 @@
 
  <rule ref="Generic.Strings.UnnecessaryStringConcat" />
 
- <rule ref="Generic.WhiteSpace.DisallowSpaceIndent" />
+ <rule ref="Generic.WhiteSpace.DisallowTabIndent" />
 </ruleset>
