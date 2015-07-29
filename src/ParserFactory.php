@@ -57,7 +57,10 @@ class ParserFactory
 		curl_close($handle);
 
 		if( $status !== 200 ) {
-			throw new \RuntimeException('Can\'t access the robots.txt file at: '.$url);
+			throw new \RuntimeException(sprintf(
+				'Can\'t access the robots.txt file at: %s',
+				$url
+			));
 		}
 
 		return $item;
