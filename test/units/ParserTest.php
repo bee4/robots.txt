@@ -68,7 +68,10 @@ Allow: /truite.php";
 	}
 
 	public function testParserFactory() {
-		$rules = ParserFactory::build("http://www.bee4.fr");
+		$parser = ParserFactory::build("http://www.bee4.fr");
+		$this->assertInstanceOf('Bee4\RobotsTxt\Parser', $parser);
+
+		$rules = $parser->parse();
 		$this->assertInstanceOf('Bee4\RobotsTxt\Rule', $rules->get('*'));
 	}
 }
