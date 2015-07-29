@@ -18,6 +18,11 @@ namespace Bee4\RobotsTxt;
  */
 class ParserFactory
 {
+	/**
+	 * Build a parser instance from a string
+	 * @param  string $item Can be an URL or a file content
+	 * @return Parser       The built instance
+	 */
 	public static function build($item) {
 		if( filter_var($item, FILTER_VALIDATE_URL)!==false ) {
 			$parsed = parse_url($item);
@@ -37,18 +42,29 @@ class ParserFactory
 			$port = isset($parsed['port'])?':'.$parsed['port']:'';
 			$url = $parsed['scheme'].'://'.$parsed['host'].$port.$parsed['path'];
 
-			$handle = curl_init();
-			curl_setopt($handle, CURLOPT_URL, $url);
-			curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
-			$item = curl_exec($handle);
-			$status = curl_getinfo($handle, CURLINFO_HTTP_CODE);
-			curl_close($handle);
-
-			if( $status !== 200 ) {
-				throw new \RuntimeException('Can\'t access the robots.txt file at: '.$url);
-			}
+			$item = self::download($url);
 		}
 
 		return new Parser($item);
+	}
+
+	/**
+	 * Extract the content at URL
+	 * @param  string $url The robots.txt URL
+	 * @return string      The robots file content
+	 */
+	protected static function download($url) {
+		$handle = curl_init();
+		curl_setopt($handle, CURLOPT_URL, $url);
+		curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+		$item = curl_exec($handle);
+		$status = curl_getinfo($handle, CURLINFO_HTTP_CODE);
+		curl_close($handle);
+
+		if( $status !== 200 ) {
+			throw new \RuntimeException('Can\'t access the robots.txt file at: '.$url);
+		}
+
+		return $item;
 	}
 }
