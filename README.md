@@ -31,3 +31,31 @@ or run this command:
 ```Shell
 composer require bee4/robots.txt:~1.0
 ```
+
+Example
+-------
+
+```PHP
+<?php
+$sample_robots_txt = trim("
+
+User-agent: *
+Allow: /
+
+User-agent: google-bot
+Disallow: /forbidden-directory
+
+");
+
+$parser = new \Bee4\RobotsTxt\Parser($sample_robots_txt);
+$rules = $parser->parse();
+
+// You can use match a url against parsed rules...
+$rules->match('Google-Bot v01', '/'); // true
+$rules->match('Google-Bot v01', '/forbidden-directory'); // false
+
+// ...or get the applicable rule for a user-agent and match  
+$rule = $rules->get('*');
+$result = $rule->match('/'); // true                                                                                                                       
+$result = $rule->match('/forbidden-directory'); // true
+```
