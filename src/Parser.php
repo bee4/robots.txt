@@ -13,6 +13,8 @@ namespace Bee4\RobotsTxt;
  */
 class Parser
 {
+	const UTF8_BOM = "\xEF\xBB\xBF";
+
 	/**
 	 * Robots.txt file content
 	 * @var string
@@ -24,7 +26,7 @@ class Parser
 	 */
 	public function __construct($content) {
 		//Remove the UTF8 BOM
-		$this->content = trim($content, "\xEF\xBB\xBF");
+		$this->content = trim($content, Parser::UTF8_BOM);
 	}
 
 	/**
