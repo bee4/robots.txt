@@ -24,11 +24,26 @@ class Parser
 	 */
 	protected $content;
 
+	/**
+	 * @param string $content
+	 */
 	public function __construct($content) {
 		//Remove the UTF8 BOM
 		$this->content = trim($content, "\xEF\xBB\xBF");
 	}
 
+	/**
+	 * Content accessor
+	 * @return string
+	 */
+	public function getContent() {
+		return $this->content;
+	}
+
+	/**
+	 * Transform file content to structured Rules
+	 * @return Rules The valid ruleset
+	 */
 	public function parse() {
 		$rules = new Rules();
 		$userAgent = $rule = null;
