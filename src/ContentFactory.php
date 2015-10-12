@@ -3,20 +3,20 @@
 namespace Bee4\RobotsTxt;
 
 /**
- * Class ParserFactory
- * Take an URL, try to load the robots.txt file and return the parsed rules
+ * Class ContentFactory
+ * Take an URL, try to load the robots.txt file and return content
  *
  * @package   Bee4\RobotsTxt
  * @license   http://opensource.org/licenses/Apache-2.0
  * @copyright Bee4 2015
  * @author    Stephane HULARD <s.hulard@chstudio.fr>
  */
-class ParserFactory
+class ContentFactory
 {
     /**
      * Build a parser instance from a string
-     * @param  string $item Can be an URL or a file content
-     * @return Parser       The built instance
+     * @param  string $item     Can be an URL or a file content
+     * @return Content          The built instance
      */
     public static function build($item)
     {
@@ -43,7 +43,7 @@ class ParserFactory
             $item = self::download($url);
         }
 
-        return new Parser($item);
+        return new Content($item);
     }
 
     /**
