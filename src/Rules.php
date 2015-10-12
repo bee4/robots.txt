@@ -11,7 +11,7 @@ use Bee4\RobotsTxt\Exception\DuplicateRuleException;
  * @package   Bee4\RobotsTxt
  * @license   http://opensource.org/licenses/Apache-2.0
  * @copyright Bee4 2015
- * @author      Stephane HULARD <s.hulard@chstudio.fr>
+ * @author    Stephane HULARD <s.hulard@chstudio.fr>
  */
 class Rules
 {
