@@ -13,42 +13,24 @@ namespace Bee4\RobotsTxt;
  */
 class Parser
 {
-    const UTF8_BOM = "\xEF\xBB\xBF";
-
-    /**
-     * Robots.txt file content
-     * @var string
-     */
-    protected $content;
-
-    /**
-     * @param string $content
-     */
-    public function __construct($content)
-    {
-        //Remove the UTF8 BOM
-        $this->content = trim($content, Parser::UTF8_BOM);
-    }
-
-    /**
-     * Content accessor
-     * @return string
-     */
-    public function getContent()
-    {
-        return $this->content;
-    }
-
     /**
      * Transform file content to structured Rules
-     * @return Rules The valid ruleset
+     * @param string|Content $content
+     * @return Rules
      */
-    public function parse()
+    public static function parse($content)
     {
+        if( is_string($content) ) {
+            $content = new Content($content);
+        }
+        if( !($content instanceof Content) ) {
+            throw new \RuntimeException('You must use a `string` or a `Content` instance to the `Parser`!');
+        }
+
         $rules = new Rules();
         $userAgent = $rule = null;
         $separator = "\r\n";
-        $line = strtok($this->content, $separator);
+        $line = strtok($content->get(), $separator);
         while ($line !== false) {
             if (strpos($line, '#') !== 0) {
                 if (preg_match('/^User-Agent\: (.*)$/i', $line, $matches)) {
