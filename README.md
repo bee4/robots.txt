@@ -38,13 +38,14 @@ Example
 ```PHP
 <?php
 
-use Bee4\RobotsTxt\ParserFactory;
+use Bee4\RobotsTxt\ContentFactory;
+use Bee4\RobotsTxt\Parser;
 
-// Build a parser from a URL
-$parser = new ParserFactory("https://httpbin.org/robots.txt");
+// Extract content from a URL
+$content = ContentFactory::build("https://httpbin.org/robots.txt");
 
 // or directly from robots.txt content
-$parser = new ParserFactory::build("
+$content = new Content("
 User-agent: *
 Allow: /
 
@@ -53,10 +54,10 @@ Disallow: /forbidden-directory
 ");
 
 // Then you must parse the file
-$rules = $parser->parse();
+$rules = Parser::parse($content);
 
-// Or you can retrieve the content
-$content = $parser->getContent();
+// You can retrieve the content as string
+$content = $content->get();
 
 // You can use match to check if an url is allowed for a give user-agent...
 $rules->match('Google-Bot v01', '/an-awesome-url');      // true
