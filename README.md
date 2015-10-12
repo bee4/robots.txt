@@ -1,4 +1,4 @@
-bee4/robots.txt v1.0.0
+bee4/robots.txt v1.0.1
 ======================
 
 [![Build Status](https://img.shields.io/travis/bee4/robots.txt.svg?style=flat-square)](https://travis-ci.org/bee4/robots.txt)
@@ -62,7 +62,7 @@ $content = $parser->getContent();
 $rules->match('Google-Bot v01', '/an-awesome-url');      // true
 $rules->match('Google-Bot v01', '/forbidden-directory'); // false
 
-// ...or get the applicable rule for a user-agent and match  
+// ...or get the applicable rule for a user-agent and match
 $rule = $rules->get('*');
 $result = $rule->match('/'); // true
 $result = $rule->match('/forbidden-directory'); // true
