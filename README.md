@@ -1,4 +1,4 @@
-bee4/robots.txt v1.0.0
+bee4/robots.txt v1.0.1
 ======================
 
 [![Build Status](https://img.shields.io/travis/bee4/robots.txt.svg?style=flat-square)](https://travis-ci.org/bee4/robots.txt)
@@ -30,4 +30,40 @@ or run this command:
 
 ```Shell
 composer require bee4/robots.txt:~1.0
+```
+
+Example
+-------
+
+```PHP
+<?php
+
+use Bee4\RobotsTxt\ParserFactory;
+
+// Build a parser from a URL
+$parser = new ParserFactory("https://httpbin.org/robots.txt");
+
+// or directly from robots.txt content
+$parser = new ParserFactory::build("
+User-agent: *
+Allow: /
+
+User-agent: google-bot
+Disallow: /forbidden-directory
+");
+
+// Then you must parse the file
+$rules = $parser->parse();
+
+// Or you can retrieve the content
+$content = $parser->getContent();
+
+// You can use match to check if an url is allowed for a give user-agent...
+$rules->match('Google-Bot v01', '/an-awesome-url');      // true
+$rules->match('Google-Bot v01', '/forbidden-directory'); // false
+
+// ...or get the applicable rule for a user-agent and match
+$rule = $rules->get('*');
+$result = $rule->match('/'); // true
+$result = $rule->match('/forbidden-directory'); // true
 ```
