@@ -22,4 +22,8 @@
   <logging>
     <log type="coverage-text" target="php://stdout" showUncoveredFiles="true"/>
 	</logging>
+  <php>
+    <const name="WEBSERVER_HOST" value="127.0.0.1" />
+    <const name="WEBSERVER_PORT" value="1349" />
+  </php>
 </phpunit>

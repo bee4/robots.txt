@@ -5,6 +5,7 @@
  * @author Stéphane HULARD <s.hulard@chstudio.fr>
  */
 
+require_once __DIR__.'/../webserver.php';
 //------------------------------------------------------------------------------
 //Use composer for autoloading
 require_once __DIR__.'/../../vendor/autoload.php';
