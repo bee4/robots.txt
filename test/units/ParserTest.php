@@ -12,8 +12,9 @@
 namespace Test\Bee4\RobotsTxt;
 
 use Bee4\RobotsTxt\Parser;
+use Bee4\RobotsTxt\Content;
 use Bee4\RobotsTxt\Rules;
-use Bee4\RobotsTxt\ParserFactory;
+use Bee4\RobotsTxt\ContentFactory;
 
 /**
  * Parser unit test
@@ -34,10 +35,9 @@ Disallow: /mentions-legales/
 User-agent: *
 Allow: /truite.php";
 
-
 	public function testParse() {
-		$object = new Parser($this->content);
-		$rules = $object->parse();
+		$content = new Content($this->content);
+		$rules = Parser::parse($content);
 
 		$rule = $rules->get('*');
 		$this->assertInstanceOf('Bee4\RobotsTxt\Rule', $rule);
@@ -50,28 +50,25 @@ Allow: /truite.php";
 	}
 
 	public function testEmptyContentParse() {
-		$object = new Parser("");
-		$rules = $object->parse();
+		$rules = Parser::parse("");
 
 		$rule = $rules->get(Rules::DEFAULT_UA);
 		$this->assertInstanceOf('Bee4\RobotsTxt\Rule', $rule);
 		$this->assertTrue($rule->match('/another-page.html'));
 	}
 
-
 	/**
 	 * @expectedException Bee4\RobotsTxt\Exception\DuplicateRuleException
 	 */
 	public function testDuplicateRuleParse() {
-		$object = new Parser($this->duplicateRuleContent);
-		$object->parse();
+		$object = Parser::parse($this->duplicateRuleContent);
 	}
 
 	public function testParserFactory() {
-		$parser = ParserFactory::build("http://www.bee4.fr");
-		$this->assertInstanceOf('Bee4\RobotsTxt\Parser', $parser);
+		$content = ContentFactory::build('http://'.WEBSERVER_HOST.':'.WEBSERVER_PORT);
+		$this->assertInstanceOf('Bee4\RobotsTxt\Content', $content);
 
-		$rules = $parser->parse();
+		$rules = Parser::parse($content);
 		$this->assertInstanceOf('Bee4\RobotsTxt\Rule', $rules->get('*'));
 	}
 }

@@ -48,7 +48,8 @@ class Rules
                 $this->collection[$userAgent] !== $this->defaultRule ) {
             throw (new DuplicateRuleException(
                 'You can\'t add 2 rules for the same UserAgent'
-            ))->setRule($rule)
+            ))
+                ->setRule($rule)
                 ->setUserAgent($userAgent);
         }
         $this->collection[$userAgent] = $rule;
