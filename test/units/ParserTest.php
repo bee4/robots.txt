@@ -61,7 +61,7 @@ Allow: /truite.php";
 	 * @expectedException Bee4\RobotsTxt\Exception\DuplicateRuleException
 	 */
 	public function testDuplicateRuleParse() {
-		$object = Parser::parse($this->duplicateRuleContent);
+		Parser::parse($this->duplicateRuleContent);
 	}
 
 	public function testParserFactory() {
