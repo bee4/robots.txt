@@ -20,10 +20,10 @@ class Parser
      */
     public static function parse($content)
     {
-        if( is_string($content) ) {
+        if (is_string($content)) {
             $content = new Content($content);
         }
-        if( !($content instanceof Content) ) {
+        if (!($content instanceof Content)) {
             throw new \RuntimeException('You must use a `string` or a `Content` instance to the `Parser`!');
         }
 
