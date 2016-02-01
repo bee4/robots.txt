@@ -2,6 +2,8 @@
 
 namespace Bee4\RobotsTxt;
 
+use Bee4\RobotsTxt\Exception\RuntimeException;
+
 /**
  * Class Parser
  * Take the content of a robots.txt file and transform it to rules
@@ -22,7 +24,9 @@ class Parser
             $content = new Content($content);
         }
         if (!($content instanceof Content)) {
-            throw new \RuntimeException('You must use a `string` or a `Content` instance to the `Parser`!');
+            throw new RuntimeException(
+                'You must use a `string` or a `Content` instance to the `Parser`!'
+            );
         }
 
         $rules = new Rules();
