@@ -6,8 +6,6 @@ namespace Bee4\RobotsTxt;
  * Class Rule
  * Represent a Ruleset inside a Robots.txt file
  *
- * @package   Bee4\RobotsTxt
- * @license   http://opensource.org/licenses/Apache-2.0
  * @copyright Bee4 2015
  * @author    Stephane HULARD <s.hulard@chstudio.fr>
  */

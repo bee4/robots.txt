@@ -8,8 +8,6 @@ use Bee4\RobotsTxt\Exception\DuplicateRuleException;
  * Class Rules
  * Represent a collection of Rules
  *
- * @package   Bee4\RobotsTxt
- * @license   http://opensource.org/licenses/Apache-2.0
  * @copyright Bee4 2015
  * @author    Stephane HULARD <s.hulard@chstudio.fr>
  */

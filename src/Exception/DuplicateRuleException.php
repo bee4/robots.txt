@@ -9,8 +9,6 @@ use Bee4\RobotsTxt\Rule;
  * Class DuplicateRuleException
  * Error thrown when the parser try to add 2 rules for the same UA
  *
- * @package   Bee4\RobotsTxt\Exception
- * @license   http://opensource.org/licenses/Apache-2.0
  * @copyright Bee4 2015
  * @author    Stephane HULARD <s.hulard@chstudio.fr>
  */

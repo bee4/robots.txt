@@ -6,8 +6,6 @@ namespace Bee4\RobotsTxt;
  * Class Parser
  * Take the content of a robots.txt file and transform it to rules
  *
- * @package   Bee4\RobotsTxt
- * @license   http://opensource.org/licenses/Apache-2.0
  * @copyright Bee4 2015
  * @author    Stephane HULARD <s.hulard@chstudio.fr>
  */

@@ -6,8 +6,6 @@ namespace Bee4\RobotsTxt;
  * Class ContentFactory
  * Take an URL, try to load the robots.txt file and return content
  *
- * @package   Bee4\RobotsTxt
- * @license   http://opensource.org/licenses/Apache-2.0
  * @copyright Bee4 2015
  * @author    Stephane HULARD <s.hulard@chstudio.fr>
  */
@@ -26,7 +24,7 @@ class ContentFactory
                 throw new \InvalidArgumentException(
                     sprintf(
                         'The robots.txt file can\'t be found at: %s this file
-						must be hosted at website root',
+                        must be hosted at website root',
                         $item
                     )
                 );
