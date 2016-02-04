@@ -62,4 +62,13 @@ class Rule extends atoum
                 ->boolean($match)
                     ->isTrue();
     }
+
+    public function testUserAgent()
+    {
+        $this
+            ->given($sut = new SUT('UA'))
+            ->then
+                ->string($sut->getUserAgent())
+                    ->isEqualTo('UA');
+    }
 }
