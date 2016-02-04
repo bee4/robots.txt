@@ -2,7 +2,7 @@
 
 namespace Bee4\RobotsTxt\Exception;
 
-use Exception;
+use LogicException;
 use Bee4\RobotsTxt\Rule;
 
 /**
@@ -12,7 +12,7 @@ use Bee4\RobotsTxt\Rule;
  * @copyright Bee4 2015
  * @author    Stephane HULARD <s.hulard@chstudio.fr>
  */
-class DuplicateRuleException extends Exception
+class DuplicateRuleException extends LogicException
 {
     /**
      * @var Rule
