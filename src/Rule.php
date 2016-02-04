@@ -15,6 +15,12 @@ class Rule
     const DIRTY    = 'dirty';
 
     /**
+     * User agent on which the rule apply
+     * @var string
+     */
+    private $ua;
+
+    /**
      * Rule status (compiled or dirty)
      * @var string
      */
@@ -37,6 +43,23 @@ class Rule
         'allow'    => '',
         'disallow' => ''
     ];
+
+    /**
+     * @param string $ua
+     */
+    public function __construct($ua)
+    {
+        $this->ua = $ua;
+    }
+
+    /**
+     * Retrieve rule's UserAgent
+     * @return string
+     */
+    public function getUserAgent()
+    {
+        return $this->ua;
+    }
 
     /**
      * Add a pattern to match in the current rule by allowing

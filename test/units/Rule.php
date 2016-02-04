@@ -21,7 +21,7 @@ class Rule extends atoum
     public function testAllowAllAsDefault()
     {
         $this
-            ->given($sut = new SUT())
+            ->given($sut = new SUT(''))
             ->when($match = $sut->match('/some/url'))
             ->then
                 ->boolean($match)
@@ -32,7 +32,7 @@ class Rule extends atoum
     {
         $this
             ->given(
-                $sut = new SUT(),
+                $sut = new SUT(''),
                 $sut->allow('/foo/bar')
             )
             ->when($match = $sut->match('/foo/bar'))
@@ -45,7 +45,7 @@ class Rule extends atoum
     {
         $this
             ->given(
-                $sut = new SUT(),
+                $sut = new SUT(''),
                 $sut->disallow('/foo/bar'),
                 $sut->allow('/foo/bar/baz$')
             )

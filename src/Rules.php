@@ -29,8 +29,8 @@ class Rules implements \Countable
 
     public function __construct()
     {
-        $this->defaultRule = new Rule();
-        $this->add(self::DEFAULT_UA, $this->defaultRule);
+        $this->defaultRule = new Rule(self::DEFAULT_UA);
+        $this->add($this->defaultRule);
     }
 
     /**
@@ -39,16 +39,15 @@ class Rules implements \Countable
      * @param Rule $rule
      * @return Rules
      */
-    public function add($userAgent, Rule $rule)
+    public function add(Rule $rule)
     {
-        $userAgent = $this->handleUa($userAgent);
+        $userAgent = $this->handleUa($rule->getUserAgent());
         if (isset($this->collection[$userAgent]) &&
                 $this->collection[$userAgent] !== $this->defaultRule ) {
             throw (new DuplicateRuleException(
                 'You can\'t add 2 rules for the same UserAgent'
             ))
-                ->setRule($rule)
-                ->setUserAgent($userAgent);
+                ->setRule($rule);
         }
         $this->collection[$userAgent] = $rule;
 
