@@ -22,40 +22,52 @@ use Bee4\RobotsTxt\ContentFactory;
  */
 class ParserTest extends \PHPUnit_Framework_TestCase
 {
-	protected $content = "User-agent: *
+    protected $content = "User-agent: *
+Disallow: /mentions-legales/some-page.html
 Disallow: /mentions-legales/
 
 User-agent: google-bot
 Allow: /truite.php
-disallow: /";
+disallow: /
 
-	protected $duplicateRuleContent = "User-agent: *
+User-agent: bing
+allow: /
+disallow: /some-page.html";
+
+    protected $duplicateRuleContent = "User-agent: *
 Disallow: /mentions-legales/
 
 User-agent: *
 Allow: /truite.php";
 
-	public function testParse() {
-		$content = new Content($this->content);
-		$rules = Parser::parse($content);
+    public function testParse()
+    {
+        $content = new Content($this->content);
+        $rules = Parser::parse($content);
 
-		$rule = $rules->get('*');
-		$this->assertInstanceOf('Bee4\RobotsTxt\Rule', $rule);
+        $rule = $rules->get('*');
+        $this->assertInstanceOf('Bee4\RobotsTxt\Rule', $rule);
 
-		$this->assertFalse($rule->match('/mentions-legales/'));
-		$this->assertTrue($rule->match('/another-page.html'));
+        $this->assertFalse($rule->match('/mentions-legales/'));
+        $this->assertFalse($rule->match('/mentions-legales/some-page.html'));
+        $this->assertFalse($rule->match('/mentions-legales/another-page.html'));
+        $this->assertTrue($rule->match('/another-page.html'));
 
-		$this->assertFalse($rules->match('Google-Bot v01', '/toto'));
-		$this->assertTrue($rules->match('Google-Bot v01', '/truite.php'));
-	}
+        $this->assertFalse($rules->match('Google-Bot v01', '/toto'));
+        $this->assertTrue($rules->match('Google-Bot v01', '/truite.php'));
 
-	public function testEmptyContentParse() {
-		$rules = Parser::parse("");
+        $this->assertTrue($rules->match('bing', '/toto'));
+        $this->assertFalse($rules->match('bing', '/some-page.html'));
+    }
 
-		$rule = $rules->get(Rules::DEFAULT_UA);
-		$this->assertInstanceOf('Bee4\RobotsTxt\Rule', $rule);
-		$this->assertTrue($rule->match('/another-page.html'));
-	}
+    public function testEmptyContentParse()
+    {
+        $rules = Parser::parse("");
+
+        $rule = $rules->get(Rules::DEFAULT_UA);
+        $this->assertInstanceOf('Bee4\RobotsTxt\Rule', $rule);
+        $this->assertTrue($rule->match('/another-page.html'));
+    }
 
 	/**
 	 * @expectedException Bee4\RobotsTxt\Exception\DuplicateRuleException
@@ -64,11 +76,12 @@ Allow: /truite.php";
 		Parser::parse($this->duplicateRuleContent);
 	}
 
-	public function testParserFactory() {
-		$content = ContentFactory::build('http://'.WEBSERVER_HOST.':'.WEBSERVER_PORT);
-		$this->assertInstanceOf('Bee4\RobotsTxt\Content', $content);
+    public function testParserFactory()
+    {
+        $content = ContentFactory::build('http://'.WEBSERVER_HOST.':'.WEBSERVER_PORT);
+        $this->assertInstanceOf('Bee4\RobotsTxt\Content', $content);
 
-		$rules = Parser::parse($content);
-		$this->assertInstanceOf('Bee4\RobotsTxt\Rule', $rules->get('*'));
-	}
+        $rules = Parser::parse($content);
+        $this->assertInstanceOf('Bee4\RobotsTxt\Rule', $rules->get('*'));
+    }
 }
