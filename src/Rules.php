@@ -11,7 +11,7 @@ use Bee4\RobotsTxt\Exception\DuplicateRuleException;
  * @copyright Bee4 2015
  * @author    Stephane HULARD <s.hulard@chstudio.fr>
  */
-class Rules
+class Rules implements \Countable
 {
     const DEFAULT_UA = '*';
 
@@ -109,5 +109,14 @@ class Rules
             return $userAgent;
         }
         return '/^'.preg_quote($userAgent).'.*/i';
+    }
+
+    /**
+     * Return the number of rules
+     * @return integer
+     */
+    public function count()
+    {
+        return count($this->collection);
     }
 }
