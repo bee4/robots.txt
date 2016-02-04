@@ -2,7 +2,7 @@
 
 namespace Bee4\RobotsTxt;
 
-use Bee4\RobotsTxt\Exception\RuntimeException;
+use Bee4\RobotsTxt\Exception\InvalidContentException;
 
 /**
  * Class Parser
@@ -24,9 +24,9 @@ class Parser
             $content = new Content($content);
         }
         if (!($content instanceof Content)) {
-            throw new RuntimeException(
-                'You must use a `string` or a `Content` instance to the `Parser`!'
-            );
+            throw (new InvalidContentException(
+                'Content must be a `string` or a `Content` instance'
+            ))->setContent($content);
         }
 
         $rules = new Rules();
