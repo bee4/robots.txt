@@ -1,6 +1,6 @@
 {
   "name": "bee4/robots.txt",
-  "description": "A library to work with UserAgent detection and classification",
+  "description": "Robots.txt parser and matcher",
   "license": "Apache-2.0",
   "authors": [
     {
@@ -13,7 +13,7 @@
     "ext-pcre": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "~5.0",
+    "atoum/atoum": "~2.5",
     "squizlabs/php_codesniffer": "~2.5"
   },
   "autoload": {
