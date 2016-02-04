@@ -75,7 +75,7 @@ class Rule
      * Compile expressions to a global pattern
      * @return boolean
      */
-    public function compile()
+    private function compile()
     {
         if( self::COMPILED === $this->state ) {
             return true;
@@ -90,6 +90,7 @@ class Rule
         };
         $this->patterns['allow'] = $process($this->exp['allow']);
         $this->patterns['disallow'] = $process($this->exp['disallow']);
+        $this->state = self::COMPILED;
     }
 
     /**
