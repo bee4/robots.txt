@@ -35,15 +35,15 @@ class Parser
         $line = strtok($content->get(), $separator);
         while ($line !== false) {
             if (strpos($line, '#') !== 0) {
-                if (preg_match('/^User-Agent\: (.*)$/i', $line, $matches)) {
+                if (preg_match('/^\s*User-Agent\: (.*)$/i', $line, $matches)) {
                     if ($userAgent !== null && $rule !== null) {
                         $rules->add($userAgent, $rule);
                     }
                     $userAgent = $matches[1];
                     $rule = new Rule();
-                } elseif (preg_match('/^Allow: (.*)$/i', $line, $matches)) {
+                } elseif (preg_match('/^\s*Allow: (.*)$/i', $line, $matches)) {
                     $rule->allow($matches[1]);
-                } elseif (preg_match('/^Disallow: (.*)$/i', $line, $matches)) {
+                } elseif (preg_match('/^\s*Disallow: (.*)$/i', $line, $matches)) {
                     $rule->disallow($matches[1]);
                 }
             }
