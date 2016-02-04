@@ -2,8 +2,8 @@
 
 namespace Bee4\RobotsTxt;
 
-use Bee4\RobotsTxt\Exception\InvalidArgumentException;
-use Bee4\RobotsTxt\Exception\RuntimeException;
+use InvalidArgumentException;
+use RuntimeException;
 
 /**
  * Class ContentFactory
