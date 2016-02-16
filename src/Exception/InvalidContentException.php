@@ -5,8 +5,8 @@ namespace Bee4\RobotsTxt\Exception;
 use InvalidArgumentException;
 
 /**
- * Class DuplicateRuleException
- * Error thrown when the parser try to add 2 rules for the same UA
+ * Class InvalidContentException
+ * Error thrown when the parser try to load an invalid content
  *
  * @copyright Bee4 2015
  * @author    Stephane HULARD <s.hulard@chstudio.fr>
@@ -14,7 +14,7 @@ use InvalidArgumentException;
 class InvalidContentException extends InvalidArgumentException
 {
     /**
-     * @var Rule
+     * @var mixed
      */
     protected $content;
 

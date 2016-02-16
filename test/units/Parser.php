@@ -80,6 +80,8 @@ Allow: /
 
 User-Agent: Google
 Disallow: /toto
+
+Sitemap: http://localhost
 ROBOTS;
 
         $this
@@ -92,6 +94,9 @@ ROBOTS;
                 ->boolean($rules->match('Google', '/page'))
                     ->isTrue()
                 ->boolean($rules->match('Google', '/toto/page'))
-                    ->isFalse();
+                    ->isFalse()
+                ->array($rules->getSitemaps())
+                    ->hasSize(1)
+                    ->contains('http://localhost');
     }
 }

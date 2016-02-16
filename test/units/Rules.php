@@ -103,4 +103,25 @@ class Rules extends atoum
                 ->object($this->exception->getRule())
                     ->isEqualTo($rule);
     }
+
+    public function testSitemaps()
+    {
+        $this
+            ->given($sut = new SUT())
+            ->when($sut->addSitemap('http://site.com/sitemap.xml'))
+            ->then
+                ->array($sut->getSitemaps())
+                    ->hasSize(1)
+                    ->contains('http://site.com/sitemap.xml');
+    }
+
+    public function testInvalidSitemapUrl()
+    {
+        $this
+            ->given($sut = new SUT())
+            ->exception(function () use ($sut) {
+                $sut->addSitemap('sitemap.xml');
+            })
+                ->isInstanceOf('Bee4\RobotsTxt\Exception\InvalidUrlException');
+    }
 }

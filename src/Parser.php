@@ -45,6 +45,8 @@ class Parser
                     $rule->allow($matches[1]);
                 } elseif (preg_match('/^\s*Disallow: (.*)$/i', $line, $matches)) {
                     $rule->disallow($matches[1]);
+                } elseif (preg_match('/^\s*Sitemap: (.*)$/i', $line, $matches)) {
+                    $rules->addSitemap($matches[1]);
                 }
             }
 

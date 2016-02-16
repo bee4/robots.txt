@@ -3,6 +3,7 @@
 namespace Bee4\RobotsTxt;
 
 use Bee4\RobotsTxt\Exception\DuplicateRuleException;
+use Bee4\RobotsTxt\Exception\InvalidUrlException;
 
 /**
  * Class Rules
@@ -21,6 +22,8 @@ class Rules implements \Countable
      */
     protected $collection = [];
 
+    protected $sitemaps = [];
+
     /**
      * Default rule used if robots.txt is empty
      * @var Rule
@@ -31,6 +34,20 @@ class Rules implements \Countable
     {
         $this->defaultRule = new Rule(self::DEFAULT_UA);
         $this->add($this->defaultRule);
+    }
+
+    public function addSitemap($sitemap)
+    {
+        if (!filter_var($sitemap, FILTER_VALIDATE_URL)) {
+            throw (new InvalidUrlException(sprintf('Invalid sitemap URL given: %s', $sitemap)))
+                ->setUrl($sitemap);
+        }
+        $this->sitemaps[] = $sitemap;
+    }
+
+    public function getSitemaps()
+    {
+        return $this->sitemaps;
     }
 
     /**

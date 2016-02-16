@@ -2,7 +2,7 @@
 
 namespace Bee4\RobotsTxt;
 
-use InvalidArgumentException;
+use Bee4\RobotsTxt\Exception\InvalidUrlException;
 use RuntimeException;
 
 /**
@@ -24,13 +24,13 @@ class ContentFactory
         if (filter_var($item, FILTER_VALIDATE_URL)!==false) {
             $parsed = parse_url($item);
             if (isset($parsed['path']) && $parsed['path'] != '/robots.txt') {
-                throw new InvalidArgumentException(
+                throw (new InvalidUrlException(
                     sprintf(
-                        'The robots.txt file can\'t be found at: %s this file
-                        must be hosted at website root',
+                        'The robots.txt file can\'t be found at: %s',
                         $item
                     )
-                );
+                ))
+                        ->setUrl($item);
             }
 
             $parsed['path'] = '/robots.txt';
