@@ -83,9 +83,9 @@ class Rule
 
     /**
      * Add an expression in the current rule
-     * @param string $pattern Expression raw pattern
+     * @param Expression $exp Expression to be added
      * @param string $mode    Expression mode (allow / disallow)
-     * @return Expression
+     * @return Rule
      */
     private function addExpression(Expression $exp, $mode)
     {
@@ -96,7 +96,7 @@ class Rule
 
     /**
      * Compile expressions to a global pattern
-     * @return boolean
+     * @return boolean|null
      */
     private function compile()
     {

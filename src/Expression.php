@@ -43,7 +43,6 @@ class Expression
 
     /**
      * Transform current pattern to be used for matching
-     * @param string $raw
      * @return string
      */
     private function build()

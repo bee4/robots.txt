@@ -35,7 +35,6 @@ class Rules implements \Countable
 
     /**
      * Add a new rule to the collection
-     * @param string $userAgent
      * @param Rule $rule
      * @return Rules
      */
