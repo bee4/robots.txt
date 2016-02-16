@@ -11,7 +11,7 @@ use Bee4\RobotsTxt\Exception\DuplicateRuleException;
  * @copyright Bee4 2015
  * @author    Stephane HULARD <s.hulard@chstudio.fr>
  */
-class Rules
+class Rules implements \Countable
 {
     const DEFAULT_UA = '*';
 
@@ -29,8 +29,8 @@ class Rules
 
     public function __construct()
     {
-        $this->defaultRule = new Rule();
-        $this->add(self::DEFAULT_UA, $this->defaultRule);
+        $this->defaultRule = new Rule(self::DEFAULT_UA);
+        $this->add($this->defaultRule);
     }
 
     /**
@@ -39,16 +39,15 @@ class Rules
      * @param Rule $rule
      * @return Rules
      */
-    public function add($userAgent, Rule $rule)
+    public function add(Rule $rule)
     {
-        $userAgent = $this->handleUa($userAgent);
+        $userAgent = $this->handleUa($rule->getUserAgent());
         if (isset($this->collection[$userAgent]) &&
                 $this->collection[$userAgent] !== $this->defaultRule ) {
             throw (new DuplicateRuleException(
                 'You can\'t add 2 rules for the same UserAgent'
             ))
-                ->setRule($rule)
-                ->setUserAgent($userAgent);
+                ->setRule($rule);
         }
         $this->collection[$userAgent] = $rule;
 
@@ -63,10 +62,7 @@ class Rules
      */
     public function match($userAgent, $url)
     {
-        if (($rule = $this->get($userAgent)) === null) {
-            return false;
-        }
-        return $rule->match($url);
+        return $this->get($userAgent)->match($url);
     }
 
     /**
@@ -93,9 +89,7 @@ class Rules
 
         return $item!==null?
             $item:
-            (isset($this->collection[self::DEFAULT_UA])?
-                $this->collection[self::DEFAULT_UA]:
-                null);
+            $this->collection[self::DEFAULT_UA];
     }
 
     /**
@@ -109,5 +103,14 @@ class Rules
             return $userAgent;
         }
         return '/^'.preg_quote($userAgent).'.*/i';
+    }
+
+    /**
+     * Return the number of rules
+     * @return integer
+     */
+    public function count()
+    {
+        return count($this->collection);
     }
 }

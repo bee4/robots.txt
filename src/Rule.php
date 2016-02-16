@@ -15,6 +15,12 @@ class Rule
     const DIRTY    = 'dirty';
 
     /**
+     * User agent on which the rule apply
+     * @var string
+     */
+    private $ua;
+
+    /**
      * Rule status (compiled or dirty)
      * @var string
      */
@@ -37,6 +43,23 @@ class Rule
         'allow'    => '',
         'disallow' => ''
     ];
+
+    /**
+     * @param string $ua
+     */
+    public function __construct($ua)
+    {
+        $this->ua = $ua;
+    }
+
+    /**
+     * Retrieve rule's UserAgent
+     * @return string
+     */
+    public function getUserAgent()
+    {
+        return $this->ua;
+    }
 
     /**
      * Add a pattern to match in the current rule by allowing
@@ -75,14 +98,14 @@ class Rule
      * Compile expressions to a global pattern
      * @return boolean
      */
-    public function compile()
+    private function compile()
     {
-        if( self::COMPILED === $this->state ) {
+        if (self::COMPILED === $this->state) {
             return true;
         }
 
-        $process = function(array &$patterns) {
-            usort($patterns, function(Expression $a, Expression $b) {
+        $process = function (array &$patterns) {
+            usort($patterns, function (Expression $a, Expression $b) {
                 return strlen($a->getRaw()) < strlen($b->getRaw());
             });
 
@@ -90,6 +113,7 @@ class Rule
         };
         $this->patterns['allow'] = $process($this->exp['allow']);
         $this->patterns['disallow'] = $process($this->exp['disallow']);
+        $this->state = self::COMPILED;
     }
 
     /**
@@ -101,11 +125,16 @@ class Rule
     {
         $this->compile();
 
-        if( 1 === preg_match($this->patterns['disallow'], $url, $disallowed) ) {
-            if( 1 === preg_match($this->patterns['allow'], $url, $allowed) ) {
+        if (0 < count($this->exp['disallow']) &&
+            1 === preg_match($this->patterns['disallow'], $url, $disallowed) ) {
+            if (0 < count($this->exp['allow']) &&
+                1 === preg_match($this->patterns['allow'], $url, $allowed)
+            ) {
                 $a = $this->lastFilledIndex($allowed);
                 $d = $this->lastFilledIndex($disallowed);
-                return strlen($this->exp['allow'][$a-2]->getRaw()) >= strlen($this->exp['disallow'][$d-2]->getRaw());
+                return
+                    strlen($this->exp['allow'][$a-2]->getRaw()) >=
+                        strlen($this->exp['disallow'][$d-2]->getRaw());
             }
 
             return false;
@@ -121,6 +150,6 @@ class Rule
      */
     private function lastFilledIndex(array $data)
     {
-        return key( array_slice( array_filter($data), -1, 1, true ) );
+        return key(array_slice(array_filter($data), -1, 1, true));
     }
 }

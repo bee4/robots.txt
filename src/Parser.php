@@ -2,7 +2,7 @@
 
 namespace Bee4\RobotsTxt;
 
-use Bee4\RobotsTxt\Exception\RuntimeException;
+use Bee4\RobotsTxt\Exception\InvalidContentException;
 
 /**
  * Class Parser
@@ -24,9 +24,9 @@ class Parser
             $content = new Content($content);
         }
         if (!($content instanceof Content)) {
-            throw new RuntimeException(
-                'You must use a `string` or a `Content` instance to the `Parser`!'
-            );
+            throw (new InvalidContentException(
+                'Content must be a `string` or a `Content` instance'
+            ))->setContent($content);
         }
 
         $rules = new Rules();
@@ -37,10 +37,10 @@ class Parser
             if (strpos($line, '#') !== 0) {
                 if (preg_match('/^\s*User-Agent\: (.*)$/i', $line, $matches)) {
                     if ($userAgent !== null && $rule !== null) {
-                        $rules->add($userAgent, $rule);
+                        $rules->add($rule);
                     }
                     $userAgent = $matches[1];
-                    $rule = new Rule();
+                    $rule = new Rule($userAgent);
                 } elseif (preg_match('/^\s*Allow: (.*)$/i', $line, $matches)) {
                     $rule->allow($matches[1]);
                 } elseif (preg_match('/^\s*Disallow: (.*)$/i', $line, $matches)) {
@@ -52,7 +52,7 @@ class Parser
         }
         //Handle the last item in the loop
         if ($rule instanceof Rule) {
-            $rules->add($userAgent, $rule);
+            $rules->add($rule);
         }
 
         return $rules;
