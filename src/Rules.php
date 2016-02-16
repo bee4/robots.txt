@@ -62,10 +62,7 @@ class Rules implements \Countable
      */
     public function match($userAgent, $url)
     {
-        if (($rule = $this->get($userAgent)) === null) {
-            return false;
-        }
-        return $rule->match($url);
+        return $this->get($userAgent)->match($url);
     }
 
     /**
@@ -92,9 +89,7 @@ class Rules implements \Countable
 
         return $item!==null?
             $item:
-            (isset($this->collection[self::DEFAULT_UA])?
-                $this->collection[self::DEFAULT_UA]:
-                null);
+            $this->collection[self::DEFAULT_UA];
     }
 
     /**
