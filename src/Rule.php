@@ -125,11 +125,16 @@ class Rule
     {
         $this->compile();
 
-        if( 1 === preg_match($this->patterns['disallow'], $url, $disallowed) ) {
-            if( 1 === preg_match($this->patterns['allow'], $url, $allowed) ) {
+        if( 0 < count($this->exp['disallow']) &&
+            1 === preg_match($this->patterns['disallow'], $url, $disallowed) ) {
+            if( 0 < count($this->exp['allow']) &&
+                1 === preg_match($this->patterns['allow'], $url, $allowed)
+            ) {
                 $a = $this->lastFilledIndex($allowed);
                 $d = $this->lastFilledIndex($disallowed);
-                return strlen($this->exp['allow'][$a-2]->getRaw()) >= strlen($this->exp['disallow'][$d-2]->getRaw());
+                return
+                    strlen($this->exp['allow'][$a-2]->getRaw()) >=
+                        strlen($this->exp['disallow'][$d-2]->getRaw());
             }
 
             return false;
