@@ -71,4 +71,27 @@ class Rule extends atoum
                 ->string($sut->getUserAgent())
                     ->isEqualTo('UA');
     }
+
+    public function testMultipleExpression()
+    {
+        $this
+            ->given(
+                $sut = new SUT(''),
+                $sut->disallow('/foo/bar'),
+                $sut->allow('/foo/bar/baz$'),
+                $sut->allow('/foo$')
+            )
+            ->when($match = $sut->match('/foo/bar'))
+            ->then
+                ->boolean($match)
+                    ->isFalse()
+            ->when($match = $sut->match('/foo/bar/baz/'))
+            ->then
+                ->boolean($match)
+                    ->isFalse()
+            ->when($match = $sut->match('/foo/bar/baz'))
+            ->then
+                ->boolean($match)
+                    ->isTrue();
+    }
 }
