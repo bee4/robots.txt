@@ -81,6 +81,7 @@ Allow: /
 User-Agent: Google
 Disallow: /toto
 
+#Sitemap
 Sitemap: http://localhost
 ROBOTS;
 

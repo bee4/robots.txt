@@ -24,17 +24,43 @@ class Content extends atoum
     {
         $this
             ->given($sut = new SUT(self::CONTENT))
+            ->when($sut->next())
             ->then
-                ->string($sut->get())
-                    ->isEqualTo(self::CONTENT);
+                ->string($sut->current())
+                    ->isEqualTo(self::CONTENT)
+                ->integer($sut->key())
+                    ->isEqualTo(16);
     }
 
     public function testWithBom()
     {
         $this
             ->given($sut = new SUT(SUT::UTF8_BOM.self::CONTENT))
+            ->when($sut->next())
             ->then
-                ->string($sut->get())
-                    ->isEqualTo(self::CONTENT);
+                ->string($sut->current())
+                    ->isEqualTo(self::CONTENT)
+                ->integer($sut->key())
+                    ->isEqualTo(16);
+    }
+
+    public function testIteration()
+    {
+        $this
+            ->given($sut = new SUT(self::CONTENT))
+            ->when(
+                $sut->next(),
+                $sut->next()
+            )
+            ->then
+                ->boolean($sut->valid())
+                    ->isFalse()
+            ->when($sut->rewind())
+            ->then
+                ->integer($sut->key())
+                    ->isEqualTo(0)
+                ->variable($sut->current())
+                    ->isNull();
+
     }
 }

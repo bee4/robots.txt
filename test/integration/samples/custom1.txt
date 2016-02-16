@@ -6,6 +6,7 @@ User-agent: google-bot
 Allow: /truite.php
 disallow: /
 
+User-Agent: msn
 User-agent: bing
 allow: /
 disallow: /some-page.html
