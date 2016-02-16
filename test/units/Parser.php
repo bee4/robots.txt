@@ -48,7 +48,7 @@ class Parser extends atoum
 
     public function testInvalidContentException()
     {
-        $this->exception(function() {
+        $this->exception(function () {
             SUT::parse(new \stdClass);
         })
             ->isInstanceOf('Bee4\RobotsTxt\Exception\InvalidContentException');
@@ -66,7 +66,7 @@ ROBOTS;
 
         $this
             ->given($content = new LUT\Content($robot))
-            ->exception(function() use ($content) {
+            ->exception(function () use ($content) {
                 SUT::parse($content);
             })
                 ->isInstanceOf('Bee4\RobotsTxt\Exception\DuplicateRuleException');

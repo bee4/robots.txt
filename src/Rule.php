@@ -100,12 +100,12 @@ class Rule
      */
     private function compile()
     {
-        if( self::COMPILED === $this->state ) {
+        if (self::COMPILED === $this->state) {
             return true;
         }
 
-        $process = function(array &$patterns) {
-            usort($patterns, function(Expression $a, Expression $b) {
+        $process = function (array &$patterns) {
+            usort($patterns, function (Expression $a, Expression $b) {
                 return strlen($a->getRaw()) < strlen($b->getRaw());
             });
 
@@ -125,9 +125,9 @@ class Rule
     {
         $this->compile();
 
-        if( 0 < count($this->exp['disallow']) &&
+        if (0 < count($this->exp['disallow']) &&
             1 === preg_match($this->patterns['disallow'], $url, $disallowed) ) {
-            if( 0 < count($this->exp['allow']) &&
+            if (0 < count($this->exp['allow']) &&
                 1 === preg_match($this->patterns['allow'], $url, $allowed)
             ) {
                 $a = $this->lastFilledIndex($allowed);
@@ -150,6 +150,6 @@ class Rule
      */
     private function lastFilledIndex(array $data)
     {
-        return key( array_slice( array_filter($data), -1, 1, true ) );
+        return key(array_slice(array_filter($data), -1, 1, true));
     }
 }

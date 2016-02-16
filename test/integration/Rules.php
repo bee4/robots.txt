@@ -24,7 +24,7 @@ class Rules extends atoum
     {
         $data = [];
         $files = glob(__DIR__.'/samples/*-rules.ini');
-        foreach( $files as $file ) {
+        foreach ($files as $file) {
             $rules = parse_ini_file($file, true);
             $tmp = [
                 file_get_contents(__DIR__.'/samples/'.basename($file, '-rules.ini').'.txt'),
@@ -43,7 +43,7 @@ class Rules extends atoum
     {
         $sut = LUT\Parser::parse($content);
 
-        foreach( $rules as $rule ) {
+        foreach ($rules as $rule) {
             $this
                 ->when($matched = $sut->match($rule['ua'], $rule['url']))
                 ->then

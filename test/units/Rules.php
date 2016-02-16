@@ -95,7 +95,7 @@ class Rules extends atoum
                 $rule = new LUT\Rule($ua),
                 $sut->add($rule)
             )
-            ->exception(function() use ($sut, $rule) {
+            ->exception(function () use ($sut, $rule) {
                 $sut->add($rule);
             })
                 ->isInstanceOf('Bee4\RobotsTxt\Exception\DuplicateRuleException')
