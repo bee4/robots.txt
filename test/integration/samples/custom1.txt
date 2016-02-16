@@ -1,0 +1,12 @@
+User-agent: *
+Disallow: /mentions-legales/some-page.html
+Disallow: /mentions-legales/
+
+User-agent: google-bot
+Allow: /truite.php
+disallow: /
+
+User-Agent: msn
+User-agent: bing
+allow: /
+disallow: /some-page.html

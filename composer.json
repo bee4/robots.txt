@@ -1,6 +1,6 @@
 {
   "name": "bee4/robots.txt",
-  "description": "A library to work with UserAgent detection and classification",
+  "description": "Robots.txt parser and matcher",
   "license": "Apache-2.0",
   "authors": [
     {
@@ -12,20 +12,13 @@
     "php": ">=5.4",
     "ext-pcre": "*"
   },
+  "require-dev": {
+    "atoum/atoum": "~2.5",
+    "squizlabs/php_codesniffer": "~2.5"
+  },
   "autoload": {
     "psr-4": {
       "Bee4\\RobotsTxt\\": "src"
     }
-  },
-  "scripts": {
-    "install:phpunit": [
-      "mkdir -p bin && php -r \"file_put_contents('bin/phpunit', file_get_contents('https://phar.phpunit.de/phpunit-4.7.7.phar'));\"",
-      "chmod 755 bin/phpunit"
-    ],
-    "install:phpcodesniffer": [
-      "mkdir -p bin && php -r \"file_put_contents('bin/phpcs', file_get_contents('https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar'));\"",
-      "php -r \"file_put_contents('bin/phpcbf', file_get_contents('https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar'));\"",
-      "chmod 755 bin/phpcs bin/phpcbf"
-    ]
   }
 }

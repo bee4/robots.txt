@@ -3,17 +3,16 @@
 namespace Bee4\RobotsTxt;
 
 use Bee4\RobotsTxt\Exception\DuplicateRuleException;
+use Bee4\RobotsTxt\Exception\InvalidUrlException;
 
 /**
  * Class Rules
  * Represent a collection of Rules
  *
- * @package   Bee4\RobotsTxt
- * @license   http://opensource.org/licenses/Apache-2.0
  * @copyright Bee4 2015
  * @author    Stephane HULARD <s.hulard@chstudio.fr>
  */
-class Rules
+class Rules implements \Countable
 {
     const DEFAULT_UA = '*';
 
@@ -23,6 +22,8 @@ class Rules
      */
     protected $collection = [];
 
+    protected $sitemaps = [];
+
     /**
      * Default rule used if robots.txt is empty
      * @var Rule
@@ -31,26 +32,38 @@ class Rules
 
     public function __construct()
     {
-        $this->defaultRule = new Rule();
-        $this->add(self::DEFAULT_UA, $this->defaultRule);
+        $this->defaultRule = new Rule(self::DEFAULT_UA);
+        $this->add($this->defaultRule);
+    }
+
+    public function addSitemap($sitemap)
+    {
+        if (!filter_var($sitemap, FILTER_VALIDATE_URL)) {
+            throw (new InvalidUrlException(sprintf('Invalid sitemap URL given: %s', $sitemap)))
+                ->setUrl($sitemap);
+        }
+        $this->sitemaps[] = $sitemap;
+    }
+
+    public function getSitemaps()
+    {
+        return $this->sitemaps;
     }
 
     /**
      * Add a new rule to the collection
-     * @param string $userAgent
      * @param Rule $rule
      * @return Rules
      */
-    public function add($userAgent, Rule $rule)
+    public function add(Rule $rule)
     {
-        $userAgent = $this->handleUa($userAgent);
+        $userAgent = $this->handleUa($rule->getUserAgent());
         if (isset($this->collection[$userAgent]) &&
                 $this->collection[$userAgent] !== $this->defaultRule ) {
             throw (new DuplicateRuleException(
                 'You can\'t add 2 rules for the same UserAgent'
             ))
-                ->setRule($rule)
-                ->setUserAgent($userAgent);
+                ->setRule($rule);
         }
         $this->collection[$userAgent] = $rule;
 
@@ -65,10 +78,7 @@ class Rules
      */
     public function match($userAgent, $url)
     {
-        if (($rule = $this->get($userAgent)) === null) {
-            return false;
-        }
-        return $rule->match($url);
+        return $this->get($userAgent)->match($url);
     }
 
     /**
@@ -95,9 +105,7 @@ class Rules
 
         return $item!==null?
             $item:
-            (isset($this->collection[self::DEFAULT_UA])?
-                $this->collection[self::DEFAULT_UA]:
-                null);
+            $this->collection[self::DEFAULT_UA];
     }
 
     /**
@@ -111,5 +119,14 @@ class Rules
             return $userAgent;
         }
         return '/^'.preg_quote($userAgent).'.*/i';
+    }
+
+    /**
+     * Return the number of rules
+     * @return integer
+     */
+    public function count()
+    {
+        return count($this->collection);
     }
 }

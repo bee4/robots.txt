@@ -2,29 +2,22 @@
 
 namespace Bee4\RobotsTxt\Exception;
 
-use Exception;
+use LogicException;
 use Bee4\RobotsTxt\Rule;
 
 /**
  * Class DuplicateRuleException
  * Error thrown when the parser try to add 2 rules for the same UA
  *
- * @package   Bee4\RobotsTxt\Exception
- * @license   http://opensource.org/licenses/Apache-2.0
  * @copyright Bee4 2015
  * @author    Stephane HULARD <s.hulard@chstudio.fr>
  */
-class DuplicateRuleException extends Exception
+class DuplicateRuleException extends LogicException
 {
     /**
      * @var Rule
      */
     protected $rule;
-
-    /**
-     * @var string
-     */
-    protected $ua;
 
     /**
      * Rule setter
@@ -43,23 +36,5 @@ class DuplicateRuleException extends Exception
     public function getRule()
     {
         return $this->rule;
-    }
-
-    /**
-     * User Agent setter
-     * @param string $ua
-     * @return DuplicateRuleException
-     */
-    public function setUserAgent($ua)
-    {
-        $this->ua = $ua;
-        return $this;
-    }
-    /**
-     * @return string
-     */
-    public function getUserAgent()
-    {
-        return $this->ua;
     }
 }

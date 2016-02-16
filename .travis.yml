@@ -6,9 +6,17 @@ php:
   - 5.5
   - 5.4
 install:
-  - composer install --no-interaction --prefer-source
-  - composer install:phpunit
-script: phpunit --coverage-clover=coverage.clover
+  - composer self-update && composer install --no-interaction --prefer-source
+script:
+  - vendor/bin/atoum
+  - vendor/bin/phpcs --standard=phpcs.xml
 after_script:
+  - |
+    echo "
+    \$clover = new atoum\\reports\\asynchronous\\clover();
+    \$runner->addReport(\$clover);
+    \$writer = new atoum\\writers\\file('atoum.clover');
+    \$clover->addWriter(\$writer);
+    " >> .atoum.php && vendor/bin/atoum
   - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+  - php ocular.phar code-coverage:upload --format=php-clover atoum.clover

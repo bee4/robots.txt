@@ -1,4 +1,4 @@
-bee4/robots.txt v2.0.0
+bee4/robots.txt v2.0.1
 ======================
 
 [![Build Status](https://img.shields.io/travis/bee4/robots.txt.svg?style=flat-square)](https://travis-ci.org/bee4/robots.txt)
@@ -32,7 +32,7 @@ or run this command:
 composer require bee4/robots.txt:~2.0
 ```
 
-Example
+Usage
 -------
 
 ```PHP
@@ -41,7 +41,7 @@ Example
 use Bee4\RobotsTxt\ContentFactory;
 use Bee4\RobotsTxt\Parser;
 
-// Extract content from a URL
+// Extract content from URL
 $content = ContentFactory::build("https://httpbin.org/robots.txt");
 
 // or directly from robots.txt content
@@ -53,13 +53,18 @@ User-agent: google-bot
 Disallow: /forbidden-directory
 ");
 
-// Then you must parse the file
+// Then you must parse the content
 $rules = Parser::parse($content);
 
-// You can retrieve the content as string
-$content = $content->get();
+//or with a reusable Parser
+$parser = new Parser();
+$rules = $parser->analyze($content);
 
-// You can use match to check if an url is allowed for a give user-agent...
+//Content can also be parsed directly as string
+$rules = Parser::parse('User-Agent: Bing
+Disallow: /downloads');
+
+// You can use the match method to check if an url is allowed for a give user-agent...
 $rules->match('Google-Bot v01', '/an-awesome-url');      // true
 $rules->match('Google-Bot v01', '/forbidden-directory'); // false
 

@@ -21,4 +21,4 @@ tools:
 filter:
   excluded_paths:
     - vendor/*
-    - test/public/*
+    - test/*
