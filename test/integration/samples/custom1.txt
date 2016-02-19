@@ -10,3 +10,6 @@ User-Agent: msn
 User-agent: bing
 allow: /
 disallow: /some-page.html
+
+User-Agent: exabot
+Disallow: *toto*

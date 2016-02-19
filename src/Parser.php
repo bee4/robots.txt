@@ -83,10 +83,18 @@ class Parser
      */
     private function parseLine(array &$current, $line, Rules $rules)
     {
-        if (preg_match('/^\s*Allow: (.*)$/i', $line, $matches)) {
-            $this->apply($current, 'allow', $matches[1]);
-        } elseif (preg_match('/^\s*Disallow: (.*)$/i', $line, $matches)) {
-            $this->apply($current, 'disallow', $matches[1]);
+        if (preg_match('/^\s*(Allow|Disallow): ((\*).+|(\/.*))$/i', $line, $matches)) {
+            $match = array_values(
+                array_filter(
+                    array_slice($matches, 3)
+                )
+            );
+
+            $this->apply(
+                $current,
+                strtolower($matches[1]),
+                $match[0]
+            );
         } elseif (preg_match('/^\s*Sitemap: (.*)$/i', $line, $matches)) {
             $rules->addSitemap($matches[1]);
         }
