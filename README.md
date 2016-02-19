@@ -1,4 +1,4 @@
-bee4/robots.txt v2.0.1
+bee4/robots.txt v2.0.2
 ======================
 
 [![Build Status](https://img.shields.io/travis/bee4/robots.txt.svg?style=flat-square)](https://travis-ci.org/bee4/robots.txt)
@@ -66,7 +66,7 @@ Disallow: /downloads');
 
 // You can use the match method to check if an url is allowed for a give user-agent...
 $rules->match('Google-Bot v01', '/an-awesome-url');      // true
-$rules->match('Google-Bot v01', '/forbidden-directory'); // false
+$rules->match('google-bot v01', '/forbidden-directory'); // false
 
 // ...or get the applicable rule for a user-agent and match
 $rule = $rules->get('*');
