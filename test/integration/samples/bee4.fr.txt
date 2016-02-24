@@ -1,2 +1,4 @@
 User-agent: *
 Disallow: /mentions-legales/
+Disallow: /~joe/index.html
+Disallow: /%7ejoe/index.html
