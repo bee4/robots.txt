@@ -22,6 +22,10 @@ class Rules implements \Countable
      */
     protected $collection = [];
 
+    /**
+     * Sitemap collection
+     * @var array
+     */
     protected $sitemaps = [];
 
     /**
@@ -36,6 +40,11 @@ class Rules implements \Countable
         $this->add($this->defaultRule);
     }
 
+    /**
+     * Add a sitemap in the current rule set
+     * @param string $sitemap
+     * @return Rules
+     */
     public function addSitemap($sitemap)
     {
         if (!filter_var($sitemap, FILTER_VALIDATE_URL)) {
@@ -45,6 +54,10 @@ class Rules implements \Countable
         $this->sitemaps[] = $sitemap;
     }
 
+    /**
+     * Retrieve the sitemap collection
+     * @return array
+     */
     public function getSitemaps()
     {
         return $this->sitemaps;
