@@ -18,3 +18,9 @@ User-Agent: custom-spaces
 Disallow:    /disallowed section/	  
 Disallow:/toto
 Allow: 		/page.html   
+
+
+ User-Agent: custom-comments#comment
+ Disallow:    /disallowed section/	#comment
+ Disallow:/toto # comment
+ Allow: /page.html#comment
