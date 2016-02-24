@@ -109,7 +109,7 @@ class Rule
                 return strlen($a->getRaw()) < strlen($b->getRaw());
             });
 
-            return '/^(('.implode(')|(', $patterns).'))$/';
+            return '/^(('.implode(')|(', $patterns).'))$/i';
         };
         $this->patterns['allow'] = $process($this->exp['allow']);
         $this->patterns['disallow'] = $process($this->exp['disallow']);
