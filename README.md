@@ -1,15 +1,15 @@
-bee4/robots.txt v2.0.2
-======================
+bee4/robots.txt
+===============
 
 [![Build Status](https://img.shields.io/travis/bee4/robots.txt.svg?style=flat-square)](https://travis-ci.org/bee4/robots.txt)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/bee4/robots.txt.svg?style=flat-square)](https://scrutinizer-ci.com/g/bee4/robots.txt/?branch=develop)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/bee4/robots.txt.svg?style=flat-square)](https://scrutinizer-ci.com/g/bee4/robots.txt/?branch=master)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/bee4/robots.txt.svg?style=flat-square)](https://scrutinizer-ci.com/g/bee4/robots.txt/)
 [![SensiolabInsight](https://img.shields.io/sensiolabs/i/eeb48794-6ffb-4c54-8867-56c077d77008.svg?style=flat-square)](https://insight.sensiolabs.com/projects/eeb48794-6ffb-4c54-8867-56c077d77008)
 
 [![License](https://img.shields.io/packagist/l/bee4/robots.txt.svg?style=flat-square)](https://packagist.org/packages/bee4/robots.txt)
 
 This library allow to parse a Robots.txt file and then check for URL status according to defined rules.
-
+It follow the rules defined in the RFC draft visible here: http://www.robotstxt.org/norobots-rfc.txt
 
 Installing
 ----------
