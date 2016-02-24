@@ -1,0 +1,103 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__.'/../vendor/autoload.php';
+
+use Hoa\Console\Parser as ConsoleParser;
+use Hoa\Console\GetOption;
+
+use Bee4\RobotsTxt\Content;
+use Bee4\RobotsTxt\ContentFactory;
+use Bee4\RobotsTxt\Parser;
+use Bee4\RobotsTxt\Rules;
+
+//------------------------------------------------------------------------------
+$file    = null;
+$verbose = false;
+$dump    = false;
+$ua      = Rules::DEFAULT_UA;
+$url     = null;
+
+//------------------------------------------------------------------------------
+function _log($tolog) {
+    global $verbose;
+    if( false === $verbose ) {
+        return $tolog;
+    }
+
+    if( $tolog instanceof \Traversable ) {
+        foreach( $tolog as $line ) {
+            echo $line.PHP_EOL;
+        }
+    } elseif(is_bool($tolog)) {
+        echo (true==$tolog?'[allowed]':'[disallowed]').PHP_EOL;
+    } else {
+        echo $tolog.PHP_EOL;
+    }
+
+    echo '---'.PHP_EOL;
+
+    return $tolog;
+}
+//------------------------------------------------------------------------------
+$otionsParser = new ConsoleParser();
+$otionsParser->parse(implode(' ', array_slice($argv, 1)));
+
+$options = new Hoa\Console\GetOption(
+    [
+        ['file',       Hoa\Console\GetOption::REQUIRED_ARGUMENT, 'f'],
+        ['user-agent', Hoa\Console\GetOption::REQUIRED_ARGUMENT, 'ua'],
+        [null,         Hoa\Console\GetOption::REQUIRED_ARGUMENT, 'url'],
+        ['verbose',    Hoa\Console\GetOption::NO_ARGUMENT,       'v'],
+        ['dump',       Hoa\Console\GetOption::NO_ARGUMENT,       'd']
+    ],
+    $otionsParser
+);
+
+while(false !== $c = $options->getOption($v)) {
+    switch($c) {
+        case 'f':
+            $file = $v;
+            break;
+        case 'url':
+            if( filter_var($v, FILTER_VALIDATE_URL) ) {
+                $tmp = parse_url($v);
+                $url = $tmp['path'];
+            } else {
+                $url = $v;
+            }
+            break;
+        case 'v':
+            $verbose = $v;
+            break;
+        case 'd':
+            $dump = $v;
+            break;
+        case 'ua':
+            $ua = $v;
+            break;
+    }
+}
+//------------------------------------------------------------------------------
+if( null === $file ) {
+    $stream = fopen('php://stdin', 'r');
+    $content = new Content(stream_get_contents($stream));
+    fclose($stream);
+} else {
+    $content = ContentFactory::build($file);
+}
+_log( $content );
+
+$parser = new Parser();
+$rules = $parser->analyze($content);
+_log( $ua );
+$rule = $rules->get($ua);
+if( true === $dump ) {
+    var_dump($rule);
+}
+
+if( null !== $url ) {
+    _log( $url );
+    exit(_log($rule->match($url))?0:1);
+}
+
