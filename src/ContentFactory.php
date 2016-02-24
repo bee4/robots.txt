@@ -29,8 +29,7 @@ class ContentFactory
                         'The robots.txt file can\'t be found at: %s',
                         $item
                     )
-                ))
-                        ->setUrl($item);
+                ))->setUrl($item);
             }
 
             $parsed['path'] = '/robots.txt';
@@ -42,6 +41,18 @@ class ContentFactory
             $url = $parsed['scheme'].'://'.$parsed['host'].$port.$parsed['path'];
 
             $item = self::download($url);
+        } elseif( is_file($item) && is_readable($item) ) {
+            if( false === ($item = file_get_contents($item)) ) {
+                throw new \RuntimeException(sprintf(
+                    "File can't be read: %s",
+                    $item
+                ));
+            }
+        } else {
+            throw new \InvalidArgumentException(sprintf(
+                'Content can\'t be built from given item: %s',
+                $item
+            ));
         }
 
         return new Content($item);
