@@ -6,7 +6,9 @@ php:
   - 5.5
   - 5.4
 install:
-  - composer self-update && composer install --no-interaction --prefer-source
+  - composer self-update
+  - if [[ $TRAVIS_PHP_VERSION = 5.4 ]]; then composer remove --dev hoa/console --no-interaction; fi;
+  - composer install --no-interaction --prefer-source
 script:
   - vendor/bin/atoum
   - vendor/bin/phpcs --standard=phpcs.xml
