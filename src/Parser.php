@@ -35,7 +35,7 @@ class Parser
                     $this->populateRules($rules, $current);
                     $current = [];
                 }
-                $current[] = new Rule($matches[1]);
+                $current[] = new Rule(trim($matches[1]));
                 $ua = true;
             } else {
                 $ua = false;
@@ -83,7 +83,7 @@ class Parser
      */
     private function parseLine(array &$current, $line, Rules $rules)
     {
-        if (preg_match('/^\s*(Allow|Disallow): ((\*).+|(\/.*))$/i', $line, $matches)) {
+        if (preg_match('/^\s*(Allow|Disallow):[ ]+((\*).+|(\/.*))$/i', $line, $matches)) {
             $match = array_values(
                 array_filter(
                     array_slice($matches, 3)
@@ -93,7 +93,7 @@ class Parser
             $this->apply(
                 $current,
                 strtolower($matches[1]),
-                $match[0]
+                trim($match[0])
             );
         } elseif (preg_match('/^\s*Sitemap: (.*)$/i', $line, $matches)) {
             $rules->addSitemap($matches[1]);
