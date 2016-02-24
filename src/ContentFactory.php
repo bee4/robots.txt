@@ -41,8 +41,8 @@ class ContentFactory
             $url = $parsed['scheme'].'://'.$parsed['host'].$port.$parsed['path'];
 
             $item = self::download($url);
-        } elseif( is_file($item) && is_readable($item) ) {
-            if( false === ($item = file_get_contents($item)) ) {
+        } elseif (is_file($item) && is_readable($item)) {
+            if (false === ($item = file_get_contents($item))) {
                 throw new \RuntimeException(sprintf(
                     "File can't be read: %s",
                     $item
