@@ -12,7 +12,7 @@ use Bee4\RobotsTxt\Exception\InvalidUrlException;
  * @copyright Bee4 2015
  * @author    Stephane HULARD <s.hulard@chstudio.fr>
  */
-class Rules implements \Countable
+class Rules implements \Countable, \IteratorAggregate
 {
     const DEFAULT_UA = '*';
 
@@ -52,6 +52,7 @@ class Rules implements \Countable
                 ->setUrl($sitemap);
         }
         $this->sitemaps[] = $sitemap;
+        return $this;
     }
 
     /**
@@ -141,5 +142,14 @@ class Rules implements \Countable
     public function count()
     {
         return count($this->collection);
+    }
+
+    /**
+     * IteratorAggregate implementation
+     * @return \ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->collection);
     }
 }
