@@ -15,5 +15,6 @@ User-Agent: exabot
 Disallow: *toto*
 
 User-Agent: custom-spaces
-Disallow:    /disallowed section/    
-Allow: 		/page.html	   
+Disallow:    /disallowed section/	  
+Disallow:/toto
+Allow: 		/page.html   

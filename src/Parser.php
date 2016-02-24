@@ -30,7 +30,7 @@ class Parser
                 continue;
             }
 
-            if (preg_match('/^\s*User-Agent\: (.*)$/i', $line, $matches)) {
+            if (preg_match('/^\s*User-Agent\:(.*)$/i', $line, $matches)) {
                 if ($ua !== true) {
                     $this->populateRules($rules, $current);
                     $current = [];
@@ -83,7 +83,7 @@ class Parser
      */
     private function parseLine(array &$current, $line, Rules $rules)
     {
-        if (preg_match('/^\s*(Allow|Disallow):[ ]+((\*).+|(\/.*))$/i', $line, $matches)) {
+        if (preg_match('/^\s*(Allow|Disallow):[ ]*((\*).+|(\/.*))$/i', $line, $matches)) {
             $match = array_values(
                 array_filter(
                     array_slice($matches, 3)
@@ -95,8 +95,8 @@ class Parser
                 strtolower($matches[1]),
                 trim($match[0])
             );
-        } elseif (preg_match('/^\s*Sitemap: (.*)$/i', $line, $matches)) {
-            $rules->addSitemap($matches[1]);
+        } elseif (preg_match('/^\s*Sitemap:(.*)$/i', $line, $matches)) {
+            $rules->addSitemap(trim($matches[1]));
         }
     }
 
